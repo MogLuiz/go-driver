@@ -3,6 +3,7 @@ package queue
 import (
 	"fmt"
 	"log"
+	"reflect"
 )
 
 type QueueType int
@@ -11,16 +12,20 @@ const (
 	RabbitMQ QueueType = iota
 )
 
-func New(qt QueueType, cfg any) *Queue {
-	q := new(Queue)
+func New(qt QueueType, cfg any) (q *Queue, err error) {
+	rt := reflect.TypeOf(cfg)
+
 	switch qt {
 	case RabbitMQ:
+		if rt.Name() != "RabbitMQConfig" {
+			return nil, fmt.Errorf("Config need's to be of type RabbitMQConfig")
+		}
 		fmt.Println("Não implementado")
 	default:
 		log.Fatal("Queue type not implemented")
 	}
 
-	return q
+	return
 }
 
 type QueueConnection interface {

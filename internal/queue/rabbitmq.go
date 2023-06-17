@@ -30,7 +30,7 @@ func NewRabbitConnection(cfg RabbitMQConfig) (*RabbitConnection, error) {
 }
 
 func (rc *RabbitConnection) Publish(msg []byte) error {
-	c, err := rc.conn.Channel()
+	ch, err := rc.conn.Channel()
 	if err != nil {
 		return err
 	}
@@ -45,7 +45,31 @@ func (rc *RabbitConnection) Publish(msg []byte) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	return c.PublishWithContext(ctx, "", rc.cfg.TopicName, false, false, mp)
+	return ch.PublishWithContext(ctx, "", rc.cfg.TopicName, false, false, mp)
 }
 
-func (rc *RabbitConnection) Consume() error {}
+func (rc *RabbitConnection) Consume(cdto chan<- QueueDTO) error {
+	ch, err := rc.conn.Channel()
+	if err != nil {
+		return err
+	}
+
+	q, err := ch.QueueDeclare(rc.cfg.TopicName, false, false, false, false, nil)
+	if err != nil {
+		return err
+	}
+
+	msgs, err := ch.Consume(q.Name, "", true, false, false, false, nil)
+	if err != nil {
+		return err
+	}
+
+	for msg := range msgs {
+		dto := QueueDTO{}
+		dto.Unmarshal(msg.Body)
+
+		cdto <- dto
+	}
+
+	return nil
+}

@@ -18,7 +18,7 @@ func New(qt QueueType, cfg any) (q *Queue, err error) {
 	switch qt {
 	case RabbitMQ:
 		if rt.Name() != "RabbitMQConfig" {
-			return nil, fmt.Errorf("Config need's to be of type RabbitMQConfig")
+			return nil, fmt.Errorf("config need's to be of type rabbitmqconfig")
 		}
 		fmt.Println("Não implementado")
 	default:
@@ -30,7 +30,7 @@ func New(qt QueueType, cfg any) (q *Queue, err error) {
 
 type QueueConnection interface {
 	Publish([]byte) error
-	Consume() error
+	Consume(chan<- QueueDTO) error
 }
 
 type Queue struct {
@@ -42,6 +42,6 @@ func (q *Queue) Publish(msg []byte) error {
 	return q.qc.Publish(msg)
 }
 
-func (q *Queue) Consume() error {
-	return q.qc.Consume()
+func (q *Queue) Consume(cdto chan<- QueueDTO) error {
+	return q.qc.Consume(cdto)
 }

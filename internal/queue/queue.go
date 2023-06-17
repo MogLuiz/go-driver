@@ -20,7 +20,11 @@ func New(qt QueueType, cfg any) (q *Queue, err error) {
 		if rt.Name() != "RabbitMQConfig" {
 			return nil, fmt.Errorf("config need's to be of type rabbitmqconfig")
 		}
-		fmt.Println("Não implementado")
+		conn, err := newRabbitConn(cfg.(RabbitMQConfig))
+		if err != nil {
+			return nil, err
+		}
+		q.qc = conn
 	default:
 		log.Fatal("Queue type not implemented")
 	}
@@ -34,8 +38,7 @@ type QueueConnection interface {
 }
 
 type Queue struct {
-	cfg any
-	qc  QueueConnection
+	qc QueueConnection
 }
 
 func (q *Queue) Publish(msg []byte) error {

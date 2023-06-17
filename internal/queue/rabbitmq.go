@@ -18,6 +18,17 @@ type RabbitConnection struct {
 	conn *amqp.Connection
 }
 
+func newRabbitConn(cfg RabbitMQConfig) (*RabbitConnection, error) {
+	conn, err := amqp.Dial(cfg.URL)
+	if err != nil {
+		return nil, err
+	}
+	return &RabbitConnection{
+		cfg:  cfg,
+		conn: conn,
+	}, nil
+}
+
 func NewRabbitConnection(cfg RabbitMQConfig) (*RabbitConnection, error) {
 	conn, err := amqp.Dial(cfg.URL)
 	if err != nil {

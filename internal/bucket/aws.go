@@ -30,8 +30,16 @@ type awsSession struct {
 	bucketUpload   string
 }
 
-func (as *awsSession) Upload(r io.Reader, key string) error {
-	return nil
+func (as *awsSession) Upload(file io.Reader, key string) error {
+	uploader := s3manager.NewUploader(as.sess)
+
+	_, err := uploader.Upload(&s3manager.UploadInput{
+		Bucket: aws.String(as.bucketUpload),
+		Key:    aws.String(key),
+		Body:   file,
+	})
+
+	return err
 }
 
 func (as *awsSession) Download(src string, dst string) (file *os.File, err error) {

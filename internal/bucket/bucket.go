@@ -18,7 +18,11 @@ func New(bt BucketType, cfg any) (b *Bucket, err error) {
 
 	switch bt {
 	case AwsProvider:
-		// TODO implement AWS provider
+		if rt.Name() != "AwsConfig" {
+			return nil, fmt.Errorf("Config need's to be of type AwsConfig")
+		}
+
+		b.p = newAwsSession(cfg.(AwsConfig))
 	default:
 		return nil, fmt.Errorf("Bucket type not implemented")
 	}

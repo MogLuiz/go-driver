@@ -21,7 +21,7 @@ type User struct {
 	Password   string    `json:"password"`
 	CreatedAt  time.Time `json:"created_at"`
 	ModifiedAt time.Time `json:"modified_at"`
-	Deleted    bool      `json:"deleted"`
+	Deleted    bool      `json:"-"`
 	LastLogin  time.Time `json:"last_login"`
 }
 

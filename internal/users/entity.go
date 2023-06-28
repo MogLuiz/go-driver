@@ -7,6 +7,13 @@ import (
 	"time"
 )
 
+var (
+	ErrNameRequired     = errors.New("name is required and can't be empty")
+	ErrLoginRequired    = errors.New("login is required and can't be empty")
+	ErrPasswordRequired = errors.New("password is required and can't be empty")
+	ErrPasswordLength   = errors.New("password must be at least 6 characters long")
+)
+
 type User struct {
 	ID         int64     `json:"id"`
 	Name       string    `json:"name"`
@@ -33,19 +40,40 @@ func New(name, login, password string) (*User, error) {
 		return nil, err
 	}
 
+	err = user.Validate()
+	if err != nil {
+		return nil, err
+	}
+
 	return user, nil
 }
 
 func (u *User) SetPassword(password string) error {
 	if password == "" {
-		return errors.New("password is required and can't be empty")
+		return ErrPasswordRequired
 	}
 
 	if len(password) < 6 {
-		return errors.New("password must be at least 6 characters long")
+		return ErrPasswordLength
 	}
 
 	u.Password = fmt.Sprintf("%x", (md5.Sum([]byte(password))))
+
+	return nil
+}
+
+func (u *User) Validate() error {
+	if u.Name == "" {
+		return ErrNameRequired
+	}
+
+	if u.Login == "" {
+		return ErrLoginRequired
+	}
+
+	if u.Password == fmt.Sprintf("%x", (md5.Sum([]byte("")))) {
+		return ErrPasswordRequired
+	}
 
 	return nil
 }

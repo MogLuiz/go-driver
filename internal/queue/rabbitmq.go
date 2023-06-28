@@ -10,7 +10,7 @@ import (
 type RabbitMQConfig struct {
 	URL       string
 	TopicName string
-	TimeOut   time.Time
+	TimeOut   time.Duration
 }
 
 type RabbitConnection struct {

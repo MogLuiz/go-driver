@@ -19,7 +19,7 @@ func New(bt BucketType, cfg any) (b *Bucket, err error) {
 	switch bt {
 	case AwsProvider:
 		if rt.Name() != "AwsConfig" {
-			return nil, fmt.Errorf("Config need's to be of type AwsConfig")
+			return nil, fmt.Errorf("config need's to be of type awsconfig")
 		}
 
 		b.p = newAwsSession(cfg.(AwsConfig))

@@ -26,13 +26,10 @@ type User struct {
 }
 
 func New(name, login, password string) (*User, error) {
-	now := time.Now()
-
 	user := &User{
 		Name:       name,
 		Login:      login,
-		CreatedAt:  now,
-		ModifiedAt: now,
+		ModifiedAt: time.Now(),
 	}
 
 	err := user.SetPassword(password)

@@ -9,6 +9,7 @@ import (
 
 var (
 	ErrNameRequired     = errors.New("name is required and can't be empty")
+	ErrIdRequired       = errors.New("id is required and can't be empty")
 	ErrLoginRequired    = errors.New("login is required and can't be empty")
 	ErrPasswordRequired = errors.New("password is required and can't be empty")
 	ErrPasswordLength   = errors.New("password must be at least 6 characters long")

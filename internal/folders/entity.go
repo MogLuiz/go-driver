@@ -1,18 +1,22 @@
 package folders
 
-import "errors"
+import (
+	"errors"
+	"time"
+)
 
 var (
-	ErrNameRequired = errors.New("name is required")
+	ErrNameRequired = errors.New("name is required and can't be empty")
+	ErrIdRequired   = errors.New("id is required and can't be empty")
 )
 
 type Folder struct {
-	ID         int64  `json:"id"`
-	ParentID   int64  `json:"parent_id"`
-	Name       string `json:"name"`
-	CreatedAt  string `json:"created_at"`
-	ModifiedAt string `json:"modified_at"`
-	Deleted    string `json:"deleted"`
+	ID         int64     `json:"id"`
+	ParentID   int64     `json:"parent_id"`
+	Name       string    `json:"name"`
+	CreatedAt  time.Time `json:"created_at"`
+	ModifiedAt time.Time `json:"modified_at"`
+	Deleted    string    `json:"deleted"`
 }
 
 func New(name string, parentID int64) (*Folder, error) {

@@ -22,7 +22,7 @@ func (h *handler) ShowById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u, err := Show(h.db, int64(id))
+	u, err := SelectById(h.db, int64(id))
 	if err != nil {
 		// TODO: validade if error is because user not found
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -33,7 +33,7 @@ func (h *handler) ShowById(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(u)
 }
 
-func Show(db *sql.DB, id int64) (*User, error) {
+func SelectById(db *sql.DB, id int64) (*User, error) {
 	stmt := `select * from "users" where "id"=$1`
 	row := db.QueryRow(stmt, id)
 

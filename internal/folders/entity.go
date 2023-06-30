@@ -16,7 +16,7 @@ type Folder struct {
 	Name       string    `json:"name"`
 	CreatedAt  time.Time `json:"created_at"`
 	ModifiedAt time.Time `json:"modified_at"`
-	Deleted    string    `json:"deleted"`
+	Deleted    bool      `json:"deleted"`
 }
 
 func New(name string, parentID int64) (*Folder, error) {

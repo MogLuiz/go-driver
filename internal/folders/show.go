@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/MogLuiz/go-driver/internal/files"
 	"github.com/go-chi/chi"
 )
 
@@ -94,6 +95,21 @@ func SelectFolderContent(db *sql.DB, folderID int64) ([]FolderResource, error) {
 			Type:       "directory",
 			CreatedAt:  subFolder.CreatedAt,
 			ModifiedAt: subFolder.ModifiedAt,
+		})
+	}
+
+	folderFiles, err := files.List(db, folderID)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, file := range folderFiles {
+		folderResource = append(folderResource, FolderResource{
+			ID:         file.ID,
+			Name:       file.Name,
+			Type:       file.Type,
+			CreatedAt:  file.CreatedAt,
+			ModifiedAt: file.ModifiedAt,
 		})
 	}
 

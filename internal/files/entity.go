@@ -11,6 +11,7 @@ var (
 	ErrTypeRequired    = errors.New("type is required and can't be empty")
 	ErrPathRequired    = errors.New("path is required and can't be empty")
 	ErrOwnerIDRequired = errors.New("owner_id is required and can't be empty")
+	ErrFileNotFound    = errors.New("file not found")
 )
 
 type File struct {

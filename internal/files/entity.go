@@ -26,6 +26,22 @@ type File struct {
 	Deleted    bool      `json:"-"`
 }
 
+func New(name, fileType, path string, ownerID int64) (*File, error) {
+	file := File{
+		OwnerID: ownerID,
+		Name:    name,
+		Type:    fileType,
+		Path:    path,
+	}
+
+	err := file.Validate()
+	if err != nil {
+		return nil, err
+	}
+
+	return &file, nil
+}
+
 func (file *File) Validate() error {
 	if file.Name == "" {
 		return ErrNameRequired

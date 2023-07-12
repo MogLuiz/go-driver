@@ -26,7 +26,7 @@ type File struct {
 	Deleted    bool      `json:"-"`
 }
 
-func New(name, fileType, path string, ownerID int64) (*File, error) {
+func New(ownerID int64, name, fileType, path string) (*File, error) {
 	file := File{
 		OwnerID: ownerID,
 		Name:    name,

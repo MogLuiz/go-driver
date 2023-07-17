@@ -23,7 +23,7 @@ func (h handler) ShowById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	folder, err := SelectFolderById(h.db, int64(id))
+	folder, err := selectFolderById(h.db, int64(id))
 	if err != nil {
 		// TODO: validade if error is because user not found
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -46,7 +46,7 @@ func (h handler) ShowById(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func SelectFolderById(db *sql.DB, id int64) (*Folder, error) {
+func selectFolderById(db *sql.DB, id int64) (*Folder, error) {
 	stmt := `select * from "folders" where "id"=$1`
 	row := db.QueryRow(stmt, id)
 

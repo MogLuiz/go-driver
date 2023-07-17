@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/MogLuiz/go-driver/internal/utils"
 )
 
 func TestDelete(t *testing.T) {
@@ -14,7 +15,7 @@ func TestDelete(t *testing.T) {
 	defer db.Close()
 
 	mock.ExpectExec(`update "users" set *`).
-		WithArgs(AnyTime{}, 1).
+		WithArgs(utils.AnyTime{}, 1).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	err = Delete(db, 1)

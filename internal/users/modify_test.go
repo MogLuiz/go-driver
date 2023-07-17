@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/MogLuiz/go-driver/internal/utils"
 )
 
 func TestUpdate(t *testing.T) {
@@ -15,7 +16,7 @@ func TestUpdate(t *testing.T) {
 	defer db.Close()
 
 	mock.ExpectExec(regexp.QuoteMeta(`UPDATE "users" set "name"=$1, "modified_at"=$2  where "id"=$3`)).
-		WithArgs("Luiz", AnyTime{}, 1).
+		WithArgs("Luiz", utils.AnyTime{}, 1).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	err = Update(db, 1, &User{Name: "Luiz"})

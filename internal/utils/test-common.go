@@ -1,4 +1,4 @@
-package users
+package utils
 
 import (
 	"database/sql/driver"

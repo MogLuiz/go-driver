@@ -44,7 +44,7 @@ func TestSelectSubFoldersByFolderID(t *testing.T) {
 		AddRow(4, 3, "Work projects", time.Now(), time.Now(), false)
 
 	mock.ExpectQuery(regexp.QuoteMeta(`select * from "folders" where "parent_id"=$1 and "deleted"=false`)).
-		WithArgs(3).
+		WithArgs(1).
 		WillReturnRows(rows)
 
 	_, err = selectSubFolders(db, 1)

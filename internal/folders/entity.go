@@ -21,8 +21,11 @@ type Folder struct {
 
 func New(name string, parentID int64) (*Folder, error) {
 	folder := Folder{
-		ParentID: parentID,
-		Name:     name,
+		Name: name,
+	}
+
+	if parentID > 0 {
+		folder.ParentID = parentID
 	}
 
 	err := folder.Validate()

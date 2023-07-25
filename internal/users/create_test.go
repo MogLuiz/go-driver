@@ -41,10 +41,8 @@ func TestCreate(t *testing.T) {
 
 	h.Create(recordResponse, request)
 
-	result := recordResponse.Body.String()
-
 	if recordResponse.Code != http.StatusCreated {
-		t.Errorf("Expected status code 201, got %v", result)
+		t.Errorf("Expected status code 201, got %d", recordResponse.Code)
 	}
 
 	if err := mock.ExpectationsWereMet(); err != nil {

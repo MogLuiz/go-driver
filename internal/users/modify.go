@@ -42,8 +42,14 @@ func (h *handler) Modify(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	updatedUser, err := ShowByID(h.db, int64(id))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	w.Header().Add("content-type", "application/json")
-	json.NewEncoder(w).Encode(u)
+	json.NewEncoder(w).Encode(updatedUser)
 }
 
 func Update(db *sql.DB, id int64, u *User) error {

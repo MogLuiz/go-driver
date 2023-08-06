@@ -7,7 +7,7 @@ import (
 )
 
 func (h *handler) List(w http.ResponseWriter, r *http.Request) {
-	users, err := List(h.db)
+	users, err := SelectAll(h.db)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -17,7 +17,7 @@ func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
-func List(db *sql.DB) ([]User, error) {
+func SelectAll(db *sql.DB) ([]User, error) {
 	stmt := `select * from "users" where "deleted"=false`
 	rows, err := db.Query(stmt)
 	if err != nil {

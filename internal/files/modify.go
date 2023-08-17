@@ -39,9 +39,8 @@ func (h *handler) Modify(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = file.Validate()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	if file.Name == "" {
+		http.Error(w, ErrNameRequired.Error(), http.StatusBadRequest)
 		return
 	}
 

@@ -29,6 +29,7 @@ func (h handler) Create(w http.ResponseWriter, r *http.Request) {
 
 	folder.ID = id
 
+	w.WriteHeader(http.StatusCreated)
 	w.Header().Add("content-type", "application/json")
 	json.NewEncoder(w).Encode(folder)
 }

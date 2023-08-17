@@ -65,3 +65,24 @@ func TestModify(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestUpdate(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Error(err)
+	}
+	defer db.Close()
+
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE "files" set "name"=$1, "modified_at"=$2, "deleted"=$3  where "id"=$4`)).
+		WithArgs("Luiz", utils.AnyTime{}, false, 1).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+	err = Update(db, 1, &File{Name: "Luiz"})
+	if err != nil {
+		t.Error(err)
+	}
+
+	if err := mock.ExpectationsWereMet(); err != nil {
+		t.Error(err)
+	}
+}

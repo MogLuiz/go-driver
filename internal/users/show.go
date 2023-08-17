@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func (h *handler) ShowById(w http.ResponseWriter, r *http.Request) {
+func (h *handler) GetByID(w http.ResponseWriter, r *http.Request) {
 	urlId := chi.URLParam(r, "id")
 	if urlId == "" {
 		http.Error(w, ErrIdRequired.Error(), http.StatusBadRequest)
